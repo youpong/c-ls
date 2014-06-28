@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 	    continue;
 	}
 
-	printf("%s  ", ent->d_name, ent->d_ino);
+	printf("%s  ", ent->d_name);
     }
     printf("\n");
 
