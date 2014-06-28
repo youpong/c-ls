@@ -35,8 +35,8 @@ int main(int argc, char *argv[])
 
 	printf("%s  ", ent->d_name, ent->d_ino);
     }
-
     printf("\n");
+
     closedir(dir);
     return 0;
 }
