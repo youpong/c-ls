@@ -25,7 +25,8 @@ int main(int argc, char *argv[])
 
     dir = opendir(dirname);
     if (dir == NULL) {
-	fprintf(stderr, "unable to opendir\n");
+	fprintf(stderr, "unable to opendir %s\n", dirname);
+	return 1;
     }
 
     while ((ent = readdir(dir)) != NULL) {
