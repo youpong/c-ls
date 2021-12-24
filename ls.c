@@ -16,15 +16,11 @@ void print_dir(char *);
  */
 int main(int argc, char *argv[])
 {
-    char dirname[256];
-
     if (argc == 1) {
-	strcpy(dirname, ".");
+        print_dir(".");
     } else {
-	strcpy(dirname, argv[1]);
+        print_dir(argv[1]);
     }
-
-    print_dir(dirname);
 
     return 0;
 }
