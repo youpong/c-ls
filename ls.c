@@ -1,7 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <dirent.h>
 #include <string.h>
+
+void print_dir(char *);
 
 /**
  * C言語によるls実装
@@ -21,22 +24,27 @@ int main(int argc, char *argv[])
 	strcpy(dirname, argv[1]);
     }
 
+    print_dir(dirname);
+
+    return 0;
+}
+
+void print_dir(char *dirname) {
     DIR *dir = opendir(dirname);
     if (dir == NULL) {
-	fprintf(stderr, "unable to opendir %s\n", dirname);
-	return 1;
+        fprintf(stderr, "unable to opendir %s\n", dirname);
+        exit(1);
     }
 
     struct dirent *ent;
     while ((ent = readdir(dir)) != NULL) {
-	if (ent->d_name[0] == '.') {
-	    continue;
-	}
+        if (ent->d_name[0] == '.') {
+                continue;
+        }
 
-	printf("%s  ", ent->d_name);
+        printf("%s  ", ent->d_name);
     }
     printf("\n");
 
     closedir(dir);
-    return 0;
 }
