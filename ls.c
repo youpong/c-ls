@@ -4,7 +4,7 @@
 #include <dirent.h>
 #include <string.h>
 
-void print_dir(char *);
+int print_dir(char *);
 
 /**
  * C言語によるls実装
@@ -17,28 +17,30 @@ void print_dir(char *);
 int main(int argc, char *argv[])
 {
     if (argc == 1) {
-        print_dir(".");
-	return 0;
+        return print_dir(".");
     }
 
     if (argc == 2) {
-        print_dir(*(argv+1));
-        return 0;
+        return print_dir(*(argv+1));
     }
 
+    int ret_code = 0;
     for(++argv; *argv; ++argv) {
         printf("%s:\n", *argv);
-        print_dir(*argv);
+	int ret;
+        if (ret = print_dir(*argv)) {
+	  ret_code = ret;
+	}
     }
 
-    return 0;
+    return ret_code;
 }
 
-void print_dir(char *dirname) {
+int print_dir(char *dirname) {
     DIR *dir = opendir(dirname);
     if (dir == NULL) {
         fprintf(stderr, "unable to opendir %s\n", dirname);
-        exit(1);
+        return 2;
     }
 
     struct dirent *ent;
@@ -52,4 +54,5 @@ void print_dir(char *dirname) {
     printf("\n");
 
     closedir(dir);
+    return 0;
 }
