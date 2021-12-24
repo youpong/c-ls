@@ -21,7 +21,13 @@ int main(int argc, char *argv[])
 	return 0;
     }
 
-    for(++argv; *argv; ++argv) {      
+    if (argc == 2) {
+        print_dir(*(argv+1));
+        return 0;
+    }
+
+    for(++argv; *argv; ++argv) {
+        printf("%s:\n", *argv);
         print_dir(*argv);
     }
 
