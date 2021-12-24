@@ -13,8 +13,6 @@
  */
 int main(int argc, char *argv[])
 {
-    DIR *dir;
-    struct dirent *ent;
     char dirname[256];
 
     if (argc == 1) {
@@ -23,12 +21,13 @@ int main(int argc, char *argv[])
 	strcpy(dirname, argv[1]);
     }
 
-    dir = opendir(dirname);
+    DIR *dir = opendir(dirname);
     if (dir == NULL) {
 	fprintf(stderr, "unable to opendir %s\n", dirname);
 	return 1;
     }
 
+    struct dirent *ent;
     while ((ent = readdir(dir)) != NULL) {
 	if (ent->d_name[0] == '.') {
 	    continue;
