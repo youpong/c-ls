@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 #include <sys/types.h>
 #include <dirent.h>
 #include <string.h>
@@ -16,21 +17,23 @@ int print_dir(char *);
  */
 int main(int argc, char *argv[])
 {
-    if (argc == 1) {
-        return print_dir(".");
-    }
-
-    if (argc == 2) {
-        return print_dir(*(argv+1));
-    }
-
     int ret_code = 0;
-    for(++argv; *argv; ++argv) {
-        printf("%s:\n", *argv);
-	int ret;
-        if (ret = print_dir(*argv)) {
-	  ret_code = ret;
-	}
+
+    switch (argc) {
+    case 1:
+        ret_code = print_dir(".");
+        break;
+    case 2:
+        ret_code = print_dir(*(argv+1));
+        break;
+    default:
+        for(++argv; *argv; ++argv) {
+            printf("%s:\n", *argv);
+            int ret;
+            if (ret = print_dir(*argv)) {
+                ret_code = ret;
+            }
+        }
     }
 
     return ret_code;
@@ -39,8 +42,12 @@ int main(int argc, char *argv[])
 int print_dir(char *dirname) {
     DIR *dir = opendir(dirname);
     if (dir == NULL) {
+      if (errno != ENOTDIR) {
         fprintf(stderr, "unable to opendir %s\n", dirname);
         return 2;
+      }
+      printf("%s  \n", dirname);
+      return 0;
     }
 
     struct dirent *ent;
