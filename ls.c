@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
         for (++argv; *argv; ++argv) {
             printf("%s:\n", *argv);
             int ret;
-            if (ret = print_dir(*argv)) {
+            if ((ret = print_dir(*argv)) != 0) {
                 ret_code = ret;
             }
         }
