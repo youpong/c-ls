@@ -1,0 +1,5 @@
+---
+#BasedOnStyle: LLVM Google Chromium Mozilla WebKit
+BasedOnStyle: WebKit
+AllowShortFunctionsOnASingleLine: false
+IndentWidth: 4
