@@ -6,7 +6,11 @@
 #include <sys/types.h>
 #include "util.h"
 
-enum file_type { FT_FILE, FT_DIR, FT_NOT_FOUND } ;
+typedef enum {
+    FT_FILE,
+    FT_DIR,
+    FT_NOT_FOUND
+} file_type;
 
 typedef struct {
     char *path;
@@ -16,7 +20,7 @@ typedef struct {
 Dir* dirs;
 Vector *files;
 
-enum file_type get_type(char *path) {
+file_type get_type(char *path) {
     return FT_FILE;
 }
 
