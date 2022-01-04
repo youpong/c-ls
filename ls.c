@@ -77,11 +77,17 @@ void retrive(char *path) {
     };
 }
 
+static int cmp_strp(const void *p1, const void *p2) {
+    return strcmp( *(char * const *) p1, *(char * const *) p2);
+}
+
 void print_dir(Dir *dir) {
     // todo: header
     printf("%s:\n", dir->path);
 
     Vector *entries = dir->entries;
+    qsort(entries->data, entries->len, sizeof(char *), cmp_strp);
+    
     for (int i = 0; i < entries->len; ++i) {
         // todo: ignore . files
         // if ((entries->data[i])[0] != '.')
