@@ -1,12 +1,12 @@
 #include "file.h"
-    
-//#is basedir('dir/name'), 'dir/';
-//#is basedir('dir/'),     'dir/';
-//#is basedir('/name'),    '/';
-//#is basedir('name'),     undef;
-//#is basedir(''),         undef;
+#include "util.h"
 
 static void test_foo() {
+    expect_str(__LINE__, "dir/", basedir("dir/name"));
+    expect_str(__LINE__, "dir/", basedir("dir/"));
+    expect_str(__LINE__, "/",    basedir("/name"));
+    expect_str(__LINE__, "",     basedir("name"));
+    expect_str(__LINE__, "",     basedir(""));
 }
 
 void run_file_test() {

@@ -14,3 +14,6 @@ check : $(TARGET) test
 	./test
 format :
 	clang-format -i *.c
+
+file.o: file.h
+util.o: util.h
