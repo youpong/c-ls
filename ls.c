@@ -9,34 +9,30 @@ int print_dir(char*);
 
 /**
  * C言語によるls実装
- * man 3 opendir
- * man 3 readdir
  * などとすれば、ググらずにゼロから実装できる！
- *
- * 実行方法: gcc ls.c && ./a.out /tmp
  */
 int main(int argc, char* argv[])
 {
-    int ret_code = 0;
+    int result_code = 0;
 
     switch (argc) {
     case 1:
-        ret_code = print_dir(".");
+        result_code = print_dir(".");
         break;
     case 2:
-        ret_code = print_dir(*(argv + 1));
+        result_code = print_dir(*(argv + 1));
         break;
     default:
         for (++argv; *argv; ++argv) {
             printf("%s:\n", *argv);
             int ret;
             if ((ret = print_dir(*argv)) != 0) {
-                ret_code = ret;
+                result_code = ret;
             }
         }
     }
 
-    return ret_code;
+    return result_code;
 }
 
 int print_dir(char* dirname)
