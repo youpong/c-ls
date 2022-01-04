@@ -5,6 +5,8 @@
 #include <string.h>
 #include <sys/types.h>
 
+enum file_type { FT_FILE, FT_DIR, FT_NOT_FOUND } ;
+
 typedef struct {
     char *path;
     char **entries;
@@ -12,11 +14,23 @@ typedef struct {
 
 Dir* dirs;
 char** files;
-    
-void print_dir(Dir *dir) {
+
+enum file_type get_type(char *path) {
+    return FT_NOT_FOUND;
 }
 
 void retrive(char *path) {
+    switch (get_type(path)) {
+    case FT_FILE:
+        break;
+    case FT_DIR:
+        break;
+    default:
+        break;
+    };
+}
+
+void print_dir(Dir *dir) {
 }
 
 /**
