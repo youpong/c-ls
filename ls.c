@@ -69,11 +69,21 @@ void retrive(char *path) {
         vec_push(dirs, dir);
         break;
     default:
+        // TODO: not found
         break;
     };
 }
 
 void print_dir(Dir *dir) {
+    // todo: header
+    printf("%s:\n", dir->path);
+
+    Vector *entries = dir->entries;
+    for (int i = 0; i < entries->len; ++i) {
+        // todo: ignore . files
+        // if ((entries->data[i])[0] != '.')
+        printf("%s\n", entries->data[i]);
+    }
 }
 
 /**
