@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string.h>
 
 char *basedir(char *path) {
@@ -14,8 +15,15 @@ char *basedir(char *path) {
 }
 
 char *filename(char *path) {
-    //  for(i = 
-    //    $path =~ m'([^/]*)$';
-    //    return $1;
-    return NULL;
+    char *result;
+
+    int i;
+    for (i = strlen(path) - 1; i >= 0; --i) {
+        if (path[i] == '/') {
+            break;
+        }
+    }
+
+    result = strdup(&path[i+1]);
+    return result;
 }

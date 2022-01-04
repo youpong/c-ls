@@ -19,7 +19,7 @@ static void test_filename() {
 
 void run_file_test() {
     test_basedir();
-    //test_filename();
+    test_filename();
 }
 
 
