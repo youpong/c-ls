@@ -1,12 +1,15 @@
 CC = clang
 CFLAGS = -Wall
-.PHONY: clean check format
+TARGET = ls
 
-ls : ls.c
+.PHONY: all clean check format
+
+all: $(TARGET)
+$(TARGET) : ls.c
 
 clean :
-	rm -f ls test
+	rm -f $(TARGET) test
+check : $(TARGET) test
+	./test
 format :
 	clang-format -i *.c
-check : ls test
-	./test
