@@ -89,9 +89,8 @@ void print_dir(Dir *dir) {
     qsort(entries->data, entries->len, sizeof(char *), cmp_strp);
     
     for (int i = 0; i < entries->len; ++i) {
-        // todo: ignore . files
-        // if ((entries->data[i])[0] != '.')
-        printf("%s\n", entries->data[i]);
+        if (*((char *)entries->data[i]) != '.')
+            printf("%s\n", entries->data[i]);
     }
 }
 
