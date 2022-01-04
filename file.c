@@ -15,15 +15,12 @@ char *basedir(char *path) {
 }
 
 char *filename(char *path) {
-    char *result;
-
-    int i;
-    for (i = strlen(path) - 1; i >= 0; --i) {
-        if (path[i] == '/') {
+    char *ptr;
+    for (ptr = path + strlen(path) - 1; ptr >= path; --ptr) {
+        if (*ptr == '/') {
             break;
         }
     }
 
-    result = strdup(&path[i+1]);
-    return result;
+    return strdup(ptr + 1);
 }
