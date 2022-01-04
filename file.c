@@ -3,10 +3,10 @@
 
 char *basedir(char *path) {
     char *result = strdup(path);
-    int i;
-    for(i = strlen(result) - 1; i >= 0; --i) {
-        if (result[i] == '/') {
-            result[i+1] = '\0';
+
+    for(char *ptr = result + strlen(result) - 1; ptr >= result; --ptr) {
+        if (*ptr == '/') {
+            *(ptr + 1) = '\0';
             return result;
         }
     }
