@@ -26,11 +26,14 @@ void run_file_test();
 
 file_type get_type(char *path) {
     file_type result = FT_NOT_FOUND;
-    DIR* dir = opendir(*basedir(path) != '\0' ? basedir(path) : ".");
-
+    char *d = basedir(path); 
+    if (*d == '\0')
+        d = ".";
+    DIR* dir = opendir(d);
+    
     struct dirent* ent;
     while ((ent = readdir(dir)) != NULL) {
-        if (strcmp(ent->d_name, filename(path)) != 0) {
+        if (strcmp(ent->d_name, filename(path)) == 0) {
             switch (ent->d_type) {
             case DT_DIR:
                 result = FT_DIR;
