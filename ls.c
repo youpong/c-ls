@@ -20,6 +20,7 @@ typedef struct {
 } Dir;
 
 char *program_name;
+int result_code = 0;
 Vector *dirs;
 Vector *files;
 
@@ -76,6 +77,7 @@ void retrive(char *path) {
     default:
         fprintf(stderr, "%s: cannot access '%s': No such file or directory\n",
                 program_name, path);
+        result_code = 2;
         break;
     };
 }
@@ -103,8 +105,6 @@ void print_dir(Dir *dir, bool show_header) {
  */
 int main(int argc, char* argv[])
 {
-    int result_code = 0;
-
     if (argc >= 2 && strcmp(argv[1], "-test") == 0) {
         run_util_test();
         run_file_test();
