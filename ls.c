@@ -15,11 +15,14 @@ typedef enum {
 
 typedef struct {
     char *path;
-    char **entries;
+    Vector *entries;
 } Dir;
 
-Dir* dirs;
+Vector *dirs;
 Vector *files;
+
+void run_util_test();
+void run_file_test();
 
 file_type get_type(char *path) {
     file_type result = FT_NOT_FOUND;
@@ -45,11 +48,25 @@ file_type get_type(char *path) {
 }
 
 void retrive(char *path) {
+    Dir *dir;
+    DIR *d;
+    struct dirent* ent;
+        
     switch (get_type(path)) {
     case FT_REG:
         vec_push(files, path);
         break;
     case FT_DIR:
+        dir = malloc(sizeof(Dir));
+        dir->path = path;
+        dir->entries = new_vector();
+        
+        d = opendir(path);
+        while((ent = readdir(d)) != NULL) {
+            vec_push(dir->entries, ent->d_name);
+        }
+        closedir(d);
+        vec_push(dirs, dir);
         break;
     default:
         break;
@@ -58,9 +75,6 @@ void retrive(char *path) {
 
 void print_dir(Dir *dir) {
 }
-
-void run_util_test();
-void run_file_test();
 
 /**
  * C言語によるls実装
@@ -80,49 +94,21 @@ int main(int argc, char* argv[])
     }
 
     files = new_vector();
+    dirs = new_vector();
 
-    if (argc == 1) {
+    if (argc == 1)
         retrive(".");
-    } else {
+    else
         for (char **ptr = argv+1; *ptr != NULL; ++ptr)
             retrive(*ptr);
-    }
 
     for(int i = 0; i < files->len; ++i) {
         printf("%s\n", (char *)files->data[i]);
     }
 
-    for (Dir *dir = dirs; dir != NULL; ++dir) {
-        print_dir(dir);
+    for(int i = 0; i < dirs->len; ++i) {
+        print_dir(dirs->data[i]);
     }
 
     return result_code;
 }
-
-/*
-int print_dir(char* dirname)
-{
-    DIR* dir = opendir(dirname);
-    if (dir == NULL) {
-        if (errno != ENOTDIR) {
-            fprintf(stderr, "unable to opendir %s\n", dirname);
-            return 2;
-        }
-        printf("%s  \n", dirname);
-        return 0;
-    }
-
-    struct dirent* ent;
-    while ((ent = readdir(dir)) != NULL) {
-        if (ent->d_name[0] == '.') {
-            continue;
-        }
-
-        printf("%s  ", ent->d_name);
-    }
-    printf("\n");
-
-    closedir(dir);
-    return 0;
-}
-*/
