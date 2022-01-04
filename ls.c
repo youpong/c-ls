@@ -8,7 +8,7 @@
 #include "file.h"
 
 typedef enum {
-    FT_FILE,
+    FT_REG,
     FT_DIR,
     FT_NOT_FOUND
 } file_type;
@@ -22,14 +22,31 @@ Dir* dirs;
 Vector *files;
 
 file_type get_type(char *path) {
-    DIR* dir = opendir(basedir(path));
-    
-    return FT_FILE;
+    file_type result = FT_NOT_FOUND;
+    DIR* dir = opendir(*basedir(path) != '\0' ? basedir(path) : ".");
+
+    struct dirent* ent;
+    while ((ent = readdir(dir)) != NULL) {
+        if (strcmp(ent->d_name, filename(path)) != 0) {
+            switch (ent->d_type) {
+            case DT_DIR:
+                result = FT_DIR;
+                break;
+            case DT_REG:
+                result = FT_REG;
+                break;
+            }
+            break;
+        }
+    }
+
+    closedir(dir);
+    return result;
 }
 
 void retrive(char *path) {
     switch (get_type(path)) {
-    case FT_FILE:
+    case FT_REG:
         vec_push(files, path);
         break;
     case FT_DIR:
