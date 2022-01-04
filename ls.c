@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
+#include "util.h"
 
 enum file_type { FT_FILE, FT_DIR, FT_NOT_FOUND } ;
 
@@ -13,7 +14,7 @@ typedef struct {
 } Dir;
 
 Dir* dirs;
-char** files;
+Vector *files;
 
 enum file_type get_type(char *path) {
     return FT_NOT_FOUND;
@@ -40,7 +41,9 @@ void print_dir(Dir *dir) {
 int main(int argc, char* argv[])
 {
     int result_code = 0;
-    
+
+    files = new_vector();
+        
     if (argc == 1) {
         retrive(".");
     } else {
@@ -48,8 +51,8 @@ int main(int argc, char* argv[])
             retrive(*ptr);
     }
 
-    for (char **file = files; *file != NULL; ++file) {
-            printf("%s\n", *file);
+    for(int i = 0; i < files->len; ++i) {
+        printf("%s\n", (char *)files->data[i]);
     }
 
     for (Dir *dir = dirs; dir != NULL; ++dir) {

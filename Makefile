@@ -5,10 +5,10 @@ TARGET = ls
 .PHONY: all clean check format
 
 all: $(TARGET)
-$(TARGET) : ls.c
+$(TARGET) : ls.o util.o
 
 clean :
-	rm -f $(TARGET) test
+	rm -f $(TARGET) test *.o
 check : $(TARGET) test
 	./test
 format :
