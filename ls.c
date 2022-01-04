@@ -25,7 +25,7 @@ void retrive(char *path) {
  */
 int main(int argc, char* argv[])
 {
-    //    int result_code = 0;
+    int result_code = 0;
     
     if (argc == 1) {
         retrive(".");
@@ -34,12 +34,15 @@ int main(int argc, char* argv[])
             retrive(*ptr);
     }
 
-    //    for (char **file = files; *file != NULL; ++file) {
-    //        printf("%s\n", *file);
-    //    }
+    for (char **file = files; *file != NULL; ++file) {
+            printf("%s\n", *file);
+    }
 
-    //    for () {
-    //    }
+    for (Dir *dir = dirs; dir != NULL; ++dir) {
+        print_dir(dir);
+    }
+
+    return result_code;
 }
 
 /*
