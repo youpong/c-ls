@@ -17,12 +17,13 @@ Dir* dirs;
 Vector *files;
 
 enum file_type get_type(char *path) {
-    return FT_NOT_FOUND;
+    return FT_FILE;
 }
 
 void retrive(char *path) {
     switch (get_type(path)) {
     case FT_FILE:
+        vec_push(files, path);
         break;
     case FT_DIR:
         break;
@@ -47,7 +48,7 @@ int main(int argc, char* argv[])
     if (argc == 1) {
         retrive(".");
     } else {
-        for (char **ptr = argv; *ptr != NULL; ++ptr)
+        for (char **ptr = argv+1; *ptr != NULL; ++ptr)
             retrive(*ptr);
     }
 
