@@ -5,7 +5,19 @@
 #include <string.h>
 #include <sys/types.h>
 
-int print_dir(char*);
+typedef struct {
+    char *path;
+    char **entries;
+} Dir;
+
+Dir* dirs;
+char** files;
+    
+void print_dir(Dir *dir) {
+}
+
+void retrive(char *path) {
+}
 
 /**
  * C言語によるls実装
@@ -13,28 +25,24 @@ int print_dir(char*);
  */
 int main(int argc, char* argv[])
 {
-    int result_code = 0;
-
-    switch (argc) {
-    case 1:
-        result_code = print_dir(".");
-        break;
-    case 2:
-        result_code = print_dir(*(argv + 1));
-        break;
-    default:
-        for (++argv; *argv; ++argv) {
-            printf("%s:\n", *argv);
-            int ret;
-            if ((ret = print_dir(*argv)) != 0) {
-                result_code = ret;
-            }
-        }
+    //    int result_code = 0;
+    
+    if (argc == 1) {
+        retrive(".");
+    } else {
+        for (char **ptr = argv; *ptr != NULL; ++ptr)
+            retrive(*ptr);
     }
 
-    return result_code;
+    //    for (char **file = files; *file != NULL; ++file) {
+    //        printf("%s\n", *file);
+    //    }
+
+    //    for () {
+    //    }
 }
 
+/*
 int print_dir(char* dirname)
 {
     DIR* dir = opendir(dirname);
@@ -60,3 +68,4 @@ int print_dir(char* dirname)
     closedir(dir);
     return 0;
 }
+*/
