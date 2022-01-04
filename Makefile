@@ -5,7 +5,7 @@ TARGET = ls
 .PHONY: all clean check format
 
 all: $(TARGET)
-$(TARGET) : ls.o util.o
+$(TARGET) : ls.o file.o util.o
 
 clean :
 	rm -f $(TARGET) test *.o

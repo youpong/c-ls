@@ -20,7 +20,11 @@ typedef struct {
 Dir* dirs;
 Vector *files;
 
+char *basedir(char *);
+
 file_type get_type(char *path) {
+    DIR* dir = opendir(basedir(path));
+    
     return FT_FILE;
 }
 
