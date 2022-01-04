@@ -5,6 +5,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include "util.h"
+#include "file.h"
 
 typedef enum {
     FT_FILE,
@@ -19,8 +20,6 @@ typedef struct {
 
 Dir* dirs;
 Vector *files;
-
-char *basedir(char *);
 
 file_type get_type(char *path) {
     DIR* dir = opendir(basedir(path));
@@ -43,6 +42,9 @@ void retrive(char *path) {
 void print_dir(Dir *dir) {
 }
 
+void run_util_test();
+void run_file_test();
+
 /**
  * C言語によるls実装
  * などとすれば、ググらずにゼロから実装できる！
@@ -51,8 +53,17 @@ int main(int argc, char* argv[])
 {
     int result_code = 0;
 
+    if (argc >= 2 && strcmp(argv[1], "-test") == 0) {
+        run_util_test();
+        run_file_test();
+        printf("========================\n");
+        printf(" All unit tests passed.\n");
+        printf("========================\n");
+        return 0;
+    }
+
     files = new_vector();
-        
+
     if (argc == 1) {
         retrive(".");
     } else {
