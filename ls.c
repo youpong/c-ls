@@ -1,5 +1,6 @@
 #include <dirent.h>
 #include <errno.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,6 +19,7 @@ typedef struct {
     Vector *entries;
 } Dir;
 
+char *program_name;
 Vector *dirs;
 Vector *files;
 
@@ -72,7 +74,8 @@ void retrive(char *path) {
         vec_push(dirs, dir);
         break;
     default:
-        // TODO: not found
+        fprintf(stderr, "%s: cannot access '%s': No such file or directory\n",
+                program_name, path);
         break;
     };
 }
@@ -81,9 +84,9 @@ static int cmp_strp(const void *p1, const void *p2) {
     return strcmp( *(char * const *) p1, *(char * const *) p2);
 }
 
-void print_dir(Dir *dir) {
-    // todo: header
-    printf("%s:\n", dir->path);
+void print_dir(Dir *dir, bool show_header) {
+    if (show_header)
+        printf("%s:\n", dir->path);
 
     Vector *entries = dir->entries;
     qsort(entries->data, entries->len, sizeof(char *), cmp_strp);
@@ -111,6 +114,7 @@ int main(int argc, char* argv[])
         return 0;
     }
 
+    program_name = argv[0];
     files = new_vector();
     dirs = new_vector();
 
@@ -120,12 +124,20 @@ int main(int argc, char* argv[])
         for (char **ptr = argv+1; *ptr != NULL; ++ptr)
             retrive(*ptr);
 
+    //
+    // print files and entries ...
+    //
+    
     for(int i = 0; i < files->len; ++i) {
         printf("%s\n", (char *)files->data[i]);
     }
 
+    bool need_delm = files->len > 0 ? true : false;
     for(int i = 0; i < dirs->len; ++i) {
-        print_dir(dirs->data[i]);
+        if (need_delm)
+            printf("\n");
+        print_dir(dirs->data[i], argc > 2);
+        need_delm = true;
     }
 
     return result_code;
